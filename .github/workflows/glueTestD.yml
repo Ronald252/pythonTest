@@ -1,0 +1,37 @@
+name: Deploy to AWS Glue
+on:
+  push:
+    branches:
+      - glue_test
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Create deployment package
+        run: |
+          zip -r glue_script.zip . -x ".github/*"
+
+      - name: Upload script to S3
+        run: |
+          aws s3 cp glue_script.zip s3://arn:aws:s3:::ronaldgluetest/glue-scripts/
+
+      - name: Update Glue Job
+        run: |
+          aws glue update-job --job-name test1 \
+            --job-update "Command={ScriptLocation='s3://arn:aws:s3:::ronaldgluetest/glue-scripts/glue_script.zip'}"
+
