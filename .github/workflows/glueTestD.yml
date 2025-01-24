@@ -32,6 +32,5 @@ jobs:
 
       - name: Update Glue Job
         run: |
-          aws glue update-job --job-name "test1" \
-           --job-update '{"Command": { "Name": "glueetl","ScriptLocation": "s3://aws-glue-assets-202533526576-us-east-2/glue-scripts/glue_script.zip","PythonVersion": "3"}}'
+          aws glue update-job --job-name "test1" --job-update '{"Command": { "Name": "glueetl","ScriptLocation": "s3://aws-glue-assets-202533526576-us-east-2/glue-scripts/glue_script.zip","PythonVersion": "3"}}'
 
