@@ -28,7 +28,7 @@ jobs:
 
       - name: Upload script to S3
         run: |
-          aws s3 cp glue_script.zip s3://aws-glue-assets-202533526576-us-east-2 /glue-scripts/
+          aws s3 cp glue_script.zip s3://aws-glue-assets-202533526576-us-east-2/glue-scripts/
 
       - name: Update Glue Job
         run: |
