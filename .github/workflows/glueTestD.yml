@@ -28,16 +28,9 @@ jobs:
 
       - name: Upload script to S3
         run: |
-          aws s3 cp glue_script.zip s3://aws-glue-assets-202533526576-us-east-2/glue-scripts/
+          aws s3 cp glue_script.zip s3://aws-glue-assets-202533526576-us-east-2 /glue-scripts/
 
       - name: Update Glue Job
         run: |
-        aws glue update-job \
-          --job-name "test1" \
-          --job-update '{
-            "Command": {
-              "Name": "glueetl",
-              "ScriptLocation": "s3://aws-glue-assets-202533526576-us-east-2/glue-scripts/glue_script.zip",
-              "PythonVersion": "3"
-            }
-          }'
+          aws glue update-job --job-name test1 \
+            --job-update '{"Command": {"ScriptLocation": "s3://aws-glue-assets-202533526576-us-east-2/glue-scripts/glue_script.zip"}}'
